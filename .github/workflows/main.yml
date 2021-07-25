@@ -51,6 +51,10 @@ jobs:
           name: jar
           path: artifacts/${{ github.repository }}/${{ github.sha }}.jar
 
+      - name: Display structure of downloaded files
+        run: ls -R
+        working-directory: artifacts/${{ github.repository }}
+
       - name: Push Zip to S3
         uses: jakejarvis/s3-sync-action@v0.3.1
         env:
