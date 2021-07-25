@@ -8,7 +8,7 @@ public class HelloWorldService {
 
     public HelloWorld helloWorld(String name) {
         return HelloWorld.builder()
-                .response("Hello, " + name)
+                .response("G'Day, " + name)
                 .build();
     }
 }

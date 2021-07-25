@@ -55,7 +55,7 @@ jobs:
         run: ls -R
         working-directory: artifacts/${{ github.repository }}
 
-      - name: install deps and predeploy
+      - name: Rename jar
         run: |
           mv artifacts/${{ github.repository }}/helloworld-lambda-0.0.1-SNAPSHOT-aws.jar artifacts/${{ github.repository }}/${{ github.sha }}.jar
 
