@@ -2,7 +2,21 @@ provider "aws" {
   region = "${var.aws_region}"
   shared_credentials_file = "/Users/brian/.aws/bullyrook/credentials"
 }
+data "aws_caller_identity" "current" {}
 
+terraform {
+  backend "s3" {
+    # Replace this with your bucket name!
+    bucket = "helloworld-lambda-state"
+    encrypt = true
+    key = "global/s3/terraform.tfstate"
+    region = "us-east-1"
+    shared_credentials_file = "/Users/brian/.aws/bullyrook/credentials"
+    # Replace this with your DynamoDB table name!
+    dynamodb_table = "helloworld-lambda-state-lock"
+
+  }
+}
 
 #Assume the role needed to create the lambda
 resource "aws_iam_role" "iam_for_helloWorld_lambda" {
