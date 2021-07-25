@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: helloWorld-lambda-cicd
+name: helloworld-lambda-cicd
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the develop branch
@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: jar
-          path: target/helloWorld-lambda-0.0.1-SNAPSHOT-aws.jar
+          path: target/helloworld-lambda-0.0.1-SNAPSHOT-aws.jar
   upload:
     runs-on: ubuntu-latest
     needs: build
@@ -46,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: jar
-          path: target/helloWorld-lambda-aws.jar
+          path: target/helloworld-lambda-aws.jar
 
       - name: Make artifact directory
         run: mkdir -p ./artifacts/${{ github.repository }}
@@ -54,7 +54,7 @@ jobs:
       - name: Create Zip File
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r ./artifacts/${{ github.repository }}/${{ github.sha }}.zip target/helloWorld-lambda-aws.jar
+          args: zip -qq -r ./artifacts/${{ github.repository }}/${{ github.sha }}.zip target/helloworld-lambda-aws.jar
 
       - name: Push Zip to S3
         uses: jakejarvis/s3-sync-action@v0.3.1
