@@ -6,7 +6,7 @@ name: helloworld-lambda-cicd
 # events but only for the develop branch
 on:
   push:
-    branches: [ main ]
+    branches: [ deploy-workflow ]
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -46,7 +46,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: jar
-          path: target/helloworld-lambda-aws.jar
+          path: target/helloworld-lambda.jar
 
       - name: Make artifact directory
         run: mkdir -p ./artifacts/${{ github.repository }}
@@ -54,7 +54,7 @@ jobs:
       - name: Create Zip File
         uses: montudor/action-zip@v1
         with:
-          args: zip -qq -r ./artifacts/${{ github.repository }}/${{ github.sha }}.zip target/helloworld-lambda-aws.jar
+          args: zip -qq -r ./artifacts/${{ github.repository }}/${{ github.sha }}.zip target/helloworld-lambda.jar
 
       - name: Push Zip to S3
         uses: jakejarvis/s3-sync-action@v0.3.1
@@ -93,5 +93,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           TF_VAR_s3_bucket: ${{ secrets.AWS_BUCKET_NAME }}
           TF_VAR_s3_key: ${{ github.repository }}/${{ github.sha }}.zip
-        run: terraform apply -auto-approve -input=false
+        run: terraform apply -auto-approve -var "s3_artifact_key=${{ github.repository }}/${{ github.sha }}.zip"
         working-directory: tf
