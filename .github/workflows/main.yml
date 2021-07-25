@@ -49,11 +49,15 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: jar
-          path: artifacts/${{ github.repository }}/${{ github.sha }}.jar
+          path: artifacts/${{ github.repository }}
 
       - name: Display structure of downloaded files
         run: ls -R
         working-directory: artifacts/${{ github.repository }}
+
+      - name: install deps and predeploy
+        run: |
+          mv artifacts/${{ github.repository }}/helloworld-lambda-0.0.1-SNAPSHOT-aws.jar artifacts/${{ github.repository }}/${{ github.sha }}.jar
 
       - name: Push Zip to S3
         uses: jakejarvis/s3-sync-action@v0.3.1
