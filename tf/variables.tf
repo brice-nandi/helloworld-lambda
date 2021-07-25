@@ -8,7 +8,7 @@ variable "s3_bucket" {
   default = "helloworld-lambda-state"
 }
 variable "s3_artifact_bucket" {
-  default = "helloworld-lambda-state"
+  default = "bullyrooks-zipped-artifacts"
 }
 #this key should never exist
 variable "s3_artifact_key" {
