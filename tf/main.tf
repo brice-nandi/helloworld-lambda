@@ -1,22 +1,8 @@
 provider "aws" {
   region = "${var.aws_region}"
-  shared_credentials_file = "/Users/brian/.aws/bullyrook/credentials"
+  shared_credentials_file = "/Users/brice.nandi/.aws/credentials"
 }
-data "aws_caller_identity" "current" {}
 
-terraform {
-  backend "s3" {
-    # Replace this with your bucket name!
-    bucket = "helloworld-lambda-state"
-    encrypt = true
-    key = "global/s3/terraform.tfstate"
-    region = "us-east-1"
-    shared_credentials_file = "/Users/brian/.aws/bullyrook/credentials"
-    # Replace this with your DynamoDB table name!
-    dynamodb_table = "helloworld-lambda-state-lock"
-
-  }
-}
 
 #Assume the role needed to create the lambda
 resource "aws_iam_role" "iam_for_helloWorld_lambda" {
@@ -43,10 +29,9 @@ EOF
 #we attempt to create this
 resource "aws_lambda_function" "tf-helloWorld" {
   function_name = "helloWorld-lambda"
-  s3_bucket = var.s3_artifact_bucket
-  s3_key = var.s3_artifact_key
+  filename = "../target/helloworld-lambda-0.0.1-SNAPSHOT-aws.jar"
   role = aws_iam_role.iam_for_helloWorld_lambda.arn
-  handler = "org.springframework.cloud.function.adapter.aws.SpringBootApiGatewayRequestHandler::handleRequest"
+  handler = "org.springframework.cloud.function.adapter.aws.SpringBootStreamHandler::handleRequest"
   memory_size = 512
   timeout = 15
 
