@@ -29,6 +29,8 @@ EOF
 #we attempt to create this
 resource "aws_lambda_function" "tf-helloWorld" {
   function_name = "helloWorld-lambda"
+  s3_bucket = var.s3_artifact_bucket
+  s3_key = var.s3_artifact_key
   filename = "../target/helloworld-lambda-0.0.1-SNAPSHOT-aws.jar"
   role = aws_iam_role.iam_for_helloWorld_lambda.arn
   handler = "org.springframework.cloud.function.adapter.aws.SpringBootStreamHandler::handleRequest"

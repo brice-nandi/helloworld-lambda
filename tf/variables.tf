@@ -8,7 +8,7 @@ variable "s3_bucket" {
   default = "helloworld-lambda-state"
 }
 variable "s3_artifact_bucket" {
-  default = "bullyrooks-zipped-artifacts"
+  default = "brice-lambda-bucket"
 }
 #this key should never exist
 variable "s3_artifact_key" {
@@ -17,3 +17,5 @@ variable "s3_artifact_key" {
 variable "dynamo_lock" {
   default = "helloworld-lambda-state-lock"
 }
+
+
