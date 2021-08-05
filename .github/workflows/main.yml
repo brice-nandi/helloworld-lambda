@@ -90,6 +90,24 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: terraform init -input=false
         working-directory: tf
+      - name: Terraform import existing role
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          run: import aws_iam_role.iam_for_helloWorld_lambda iam_for_helloWorld_lambda
+          working-directory: tf
+      - name: Terraform import existing log group
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            run: import aws_cloudwatch_log_group.helloWorld-logs /aws/lambda/helloWorld
+            working-directory: tf
+      - name: Terraform import existing iam policy
+          env:
+            AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            run: import aws_iam_policy.helloWorld-logs helloWorld_lambda_logging
+            working-directory: tf
       - name: Terraform Apply
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
