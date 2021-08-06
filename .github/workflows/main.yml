@@ -108,6 +108,12 @@ jobs:
             AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: terraform import aws_iam_policy.helloWorld-logs arn:aws:iam::739155141054:policy/helloWorld_lambda_logging
         working-directory: tf
+      - name: Terraform import lambda resource
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        run: terraform import aws_lambda_function.tf-helloWorld helloWorld-lambda
+        working-directory: tf
       - name: Terraform Apply
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
